@@ -1,0 +1,47 @@
+#labels Featured
+Installation instructions:
+
+- Unpack the archive and place the 'akismet' folder in the 'extension' folder.
+
+- Open the file /settings/override/site.ini.append(.php) and add the akismet extension to the list of active extensions:
+{{{
+        [ExtensionSettings]
+        ActiveExtensions[]=akismet
+}}}
+
+- Modify the akismet.ini.append.php file:
+
+   1. Get api key at: http://akismet.com/personal/, and add it to the APIKey setting; 
+{{{
+[AccountSettings]
+APIKey=aaaabbb000111
+}}}
+
+    2. Define your BlogURL; 
+{{{
+[SiteSettings]
+BlogURL=http://www.yoursite.com
+}}}
+
+    3. Define all classes that should make use of the Akismet service in the InformationExtractorSettings setting; 
+
+{{{
+   [InformationExtractorSettings]
+   ExtractableClasses[]=trackback
+   ExtractableClasses[]=comment
+}}}
+
+    4. Map 'author','email', 'website' and 'body' to the content class attribute identifiers of the classes above. 
+
+    The format is:
+{{{
+   [classIdentifier_AkismetSettings]
+   AuthorAttribute=classAttributeIdentifier
+}}}          
+   for example:
+{{{            
+    [comment_AkismetSettings]
+    AuthorAttribute=author
+}}}
+
+- Create a workflow with the " Event / Akismet Spam filter" event, called by the 'publish/before' trigger. 
